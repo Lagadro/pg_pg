@@ -1,0 +1,99 @@
+#include <iostream>
+#include <locale.h>
+#include<ctime>
+using  namespace std;
+
+int main()
+{
+	srand(time(NULL));
+	setlocale(LC_ALL, "Turkish");
+	string gec = "";
+	string ilRandom[15];
+	int indis[14] = { 0 };
+	string iller[81] = { "adana" , "adıyaman" , "afyonkarahisar" , "ağrı" , "amasya" , "ankara" , "antalya" , "artvin" , "aydın" , "balıkesir" ,
+
+						"bilecik" , "bingol" , "bitlis" , "bolu" , "burdur" , "bursa" , "canakkale" , "cankiri" , "corum" , "denizli" , "diyarbakir" ,
+
+						"edirne" , "elazıg" , "erzincan" , "erzurum" , "eskisehir" , "gaziantep" , "giresun" , "gumushane" , "hakkari" , "hatay" ,
+
+						"isparta" , "mersin" , "istanbul" , "izmir" , "kars" , "kastamonu" , "kayseri" , "kirklareli" , "kirsehir" , "kocaeli" ,
+
+						"konya" , "kutahya" , "malatya" , "manisa" , "kahramanmaras" , "mardin" , "mugla" , "mus" , "nevsehir" , "nigde" ,
+
+						"ordu" , "rize" , "sakarya" , "samsun" , "siirt" , "sinop" , "sivas" , "tekirdag" , "tokat" , "trabzon" , "tunceli" ,
+
+						"sanliurfa" , "usak" , "van" , "yozgat" , "zonguldak" , "aksaray" , "bayburt" , "karaman" , "kirikkale" , "batman" ,
+
+						"sirnak" , "bartin" , "ardahan" , "igdir" , "yalova" , "karabuk" , "kilis" , "osmaniye" , "duzce" };
+	
+	int min = iller[0].length();
+	for (int i = 0; i < 81; i++)
+	{
+		if (min > iller[i].size())
+			min = iller[i].size();
+	}
+	int max = iller[0].size();
+	for (int i = 0; i < 81; i++)
+	{
+		if (max < iller[i].size())
+			max = iller[i].size();
+	}
+	cout << " min :" << min << endl;
+	cout << " mak :" << max << endl;
+	
+	
+	
+	int control1 = 0;
+	//(control1 == 0 && i != min)
+	//int control2 = 0;
+	int control3 = 0;
+	for (int i = min; i < max; i++)
+	{
+		
+		cout << i << endl;
+		if (control3==1)
+			cout << "bulunamadı" << endl;
+		control3 = 0;
+		for (int j = 0; j < 1000000; j++)
+		{
+			int control2 = 0;
+			//cout << j << " ";
+			for (int s = 0; s < i; s++)
+			{
+				ilRandom[s] = iller[rand() % 81];
+				//cout << ilRandom[s] << endl;
+			}
+			int ming = ilRandom[0].length();
+			for (int k = 0; k < i; k++)
+			{
+				if (ming > ilRandom[k].length())
+					ming = ilRandom[k].length();
+			}
+			//cout << ming << endl;
+			for (int k = 0; k < ming; k++)
+			{
+				gec = "";
+				for (int t = 0; t < i; t++)
+					gec += ilRandom[t].at(k);
+
+				//cout << gec << endl;
+				for (int x = 0; x < 81; x++)
+				{
+					if (iller[x] == gec)
+					{
+						cout << gec << endl;
+						control2 = 1;
+						control3 = 0;
+						//control1 = 1;
+					}
+					if (iller[x] != gec)
+					{
+						control3 = 1;
+					}
+				}
+			}
+			if (control2 == 1)
+				break;
+		}
+	}
+}
