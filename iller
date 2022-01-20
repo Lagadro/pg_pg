@@ -1,0 +1,97 @@
+/****************************************************************************************************
+**                                      SAKARYA ÜNİVERSİTESİ
+**                            BİLGİSAYAR VE BİLİŞİM BİLİMLERİ FAKÜLTESİ
+**                                 BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ
+**                                   PROGRAMLAMAYA GİRİŞ DERSİ
+**
+**							                	ÖDEV NUMARASI....:1
+**							                 	ÖĞRENCİ ADI......:MEHMET OK
+**                                ÖĞRENCİ NUMARASI.:G*********
+**                                DERS GRUBU.......:2.ÖĞRETİM B-GRUBU
+***************************************************************************************************/
+#include <iostream>
+#include <locale.h>
+#include<ctime>
+#include<iomanip>
+using  namespace std;
+
+int main()
+{
+	srand(time(NULL)); //100000 denemede rastgele kelimelerin farklı gelmesi için
+	setlocale(LC_ALL, "Turkish"); //türkçe karakterler için
+	bool control1 = 0; //control1 ve control2 değişkenleri rastgele oluşan kelimenin şehir ismi olup olmadığını kontrol ederler
+	bool control2 = 0;
+	string ilGecici = "";
+	string ilRandom[15];
+	string iller[81] = { "adana" , "adıyaman" , "afyonkarahisar" , "ağrı" , "amasya" , "ankara" , "antalya" , "artvin" , "aydın" , "balıkesir" ,
+						"bilecik" , "bingol" , "bitlis" , "bolu" , "burdur" , "bursa" , "canakkale" , "cankiri" , "corum" , "denizli" , "diyarbakir" ,
+						"edirne" , "elazıg" , "erzincan" , "erzurum" , "eskisehir" , "gaziantep" , "giresun" , "gumushane" , "hakkari" , "hatay" ,
+						"isparta" , "mersin" , "istanbul" , "izmir" , "kars" , "kastamonu" , "kayseri" , "kirklareli" , "kirsehir" , "kocaeli" ,
+						"konya" , "kutahya" , "malatya" , "manisa" , "kahramanmaras" , "mardin" , "mugla" , "mus" , "nevsehir" , "nigde" ,
+						"ordu" , "rize" , "sakarya" , "samsun" , "siirt" , "sinop" , "sivas" , "tekirdag" , "tokat" , "trabzon" , "tunceli" ,
+						"sanliurfa" , "usak" , "van" , "yozgat" , "zonguldak" , "aksaray" , "bayburt" , "karaman" , "kirikkale" , "batman" ,
+						"sirnak" , "bartin" , "ardahan" , "igdir" , "yalova" , "karabuk" , "kilis" , "osmaniye" , "duzce" };
+
+	int ilMin = iller[0].size(); 
+	int ilMax = iller[0].size();
+	for (int i = 0; i < 81; i++) //en kısa ilin karakter sayısını tutar
+	{
+		if (ilMin > iller[i].size())
+			ilMin = iller[i].size();
+	}
+	for (int i = 0; i < 81; i++) //en uzun ilin karakter sayısını tutar
+	{
+		if (ilMax < iller[i].size())
+			ilMax = iller[i].size();
+	}
+	cout << "****************************************************" << endl;
+	cout << setw(3) << " En kısa ilin karakter sayısı: " << ilMin << endl;
+	cout << setw(3) << " En uzun ilin karakter sayısı: " << ilMax << endl;
+	cout << "****************************************************" << endl;
+	for (int i = ilMin; i <= ilMax; i++)
+	{
+
+		if (i == 11 || i == 12)
+			continue;
+
+		control1 = 1;
+		cout << setw(3) << i << " karakterli şehir aranıyor:" << endl;
+		for (int j = 0; j < 1000000; j++) //şehir bulmak için 100000 deneme yaptıran döngü
+		{
+			control2 = 0;
+			for (int s = 0; s < i; s++)//karakter sayına göre rastgele il seçen döngü
+			{
+				ilRandom[s] = iller[rand() % 81]; 
+			}
+			int rastgeleSehirEnKısa = ilRandom[0].length(); // rastgele gelen şehirlerin en kısa olanının karakter sayısı kadar il üretilmesini sağlar
+			for (int k = 0; k < i; k++)  //rastgele gelen kelimelerin en kısa olanını bulur ve rastgeleSehirEnKısa değişkenine atar
+			{
+				if (rastgeleSehirEnKısa > ilRandom[k].length())
+					rastgeleSehirEnKısa = ilRandom[k].length();
+			}
+			for (int k = 0; k < rastgeleSehirEnKısa; k++) //rastgele seçilen şehirlerden gelen gelen kelimeleri sorgular
+			{
+				ilGecici = "";  //rastgele kelimelerin aynı indisli elemanlarını tutan dizidir 
+				for (int t = 0; t < i; t++)
+					ilGecici += ilRandom[t].at(k); //at() fonksiyonu (at(i)) i indisli elemanı istenilen dizinin sonuna ekler
+				for (int x = 0; x < 81; x++) //ilGecici dizisinde tutulan kelimenin şehir adı olup olmadığını kontrol eder 
+				{ 
+					if (iller[x] == ilGecici) //eğer ilGecici de tutulan kelime şehirse 
+					{
+						cout << "      " << ilGecici << endl;
+						control2 = 1; 
+					}
+				}
+			}
+			if (control2)//şehir ismi bulunduğunda 100000 kere dönecek döngüyü kırarak çıkar ve karakter sayısı bir fazla olan kelimelere geçer
+			{
+				control1 = 0; //şehir ismi bulunursa ekrana "bulunnamadı" yazdırmaması için 
+				break;
+			}
+		}
+		if (control1)  //eğer şehir bulunamadıysa ekrana "bulunamadı" yazdırır
+			cout << "      " << "bulunamadı" << endl;
+	}
+	cout << "****************************************************" << endl;
+	return 0;
+}
